@@ -1,0 +1,17 @@
+{
+  "name": "HAPI-BOOKSHELF",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@hapi/hapi": "^20.1.5",
+    "nanoid": "^3.1.23",
+    "nodemon": "^2.0.12"
+  }
+}
