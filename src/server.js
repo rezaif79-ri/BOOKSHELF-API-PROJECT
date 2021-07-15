@@ -1,7 +1,7 @@
 const hapi = require('@hapi/hapi');
 const routes = require('./routes')
 
-const init = async function() {
+const start_server = async function() {
     let server = hapi.server({
         port: 8000,
         host: process.env.NODE_ENV !== 'production' ? 'localhost' : '0.0.0.0',
@@ -18,4 +18,4 @@ const init = async function() {
     console.log(`Server running on ${server.info.uri}`);
 }
 
-init();
+start_server();
