@@ -1,14 +1,30 @@
 const {nanoid} = require('nanoid');
 const books = require('./books');
 
-const getAllBooksHandler = ()=> ({
-    status:'success',
-    data:{
-        "books": [],
-    },
-});
 
-const addBookHandler = (request, h) => {
+
+async function getAllBooksHandler(request,h){
+    const getBook = [];
+    books.forEach(function(obj){
+        const row = {
+            'id':obj.id,
+            'name':obj.name,
+            'publisher':obj.publisher,
+        };
+        getBook.push(row); 
+    });
+
+    const response = h.response({
+        status: "success",
+        data:{
+            "books": getBook, 
+        } 
+    });
+    response.code(200);
+    return response;
+};
+
+function addBookHandler(request, h){
     const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload;
     const id = nanoid(16);
     const insertedAt = new Date().toISOString();
@@ -34,7 +50,7 @@ const addBookHandler = (request, h) => {
             message: "Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount"
         });
         response.code(400);
-        return response
+        return response;
     }
     
     books.push(newBook);
@@ -62,6 +78,30 @@ const addBookHandler = (request, h) => {
   
 };
 
+function getBookByIdHandler(request, h){
+    const {bookId} = request.params;
+    const book = books.filter((b) => b.id === bookId)[0];
+    
+    if (book !== undefined) {
+        const response = h.response({
+            status: 'success',
+            data: {
+                book,
+            },
+        });
+        response.code(200);
+
+        return response;
+    }
+     
+    const response = h.response({
+      status: 'fail',
+      message: 'Buku tidak ditemukan',
+    });
+    response.code(404);
+    return response;
+}
 
 
-module.exports = { getAllBooksHandler, addBookHandler };
+
+module.exports = { getAllBooksHandler, addBookHandler, getBookByIdHandler };
